@@ -1,16 +1,56 @@
-#Selecionar uma palavra aleatória.
-#Esconder a palavra selecionada, substituindo as letras por traços ou asteriscos.
-#Definir o número de tentativas disponíveis.
-#Criar uma lista vazia para armazenar as letras já tentadas.
-#Enquanto houver tentativas restantes e a palavra escondida não tiver sido completamente revelada:
-#Exibir a forca de acordo com o número de tentativas restantes.
-#Exibir a palavra escondida com as letras descobertas.
-#Exibir as letras já tentadas.
-#Obter uma letra digitada pelo jogador.
-#Verificar se a letra já foi tentada anteriormente. Se sim, exibir uma mensagem informando que a letra já foi tentada e voltar para o início do loop.
-#Adicionar a letra à lista de letras tentadas.
-#Verificar se a letra está presente na palavra selecionada:
-#Se sim, exibir uma mensagem informando que a letra foi encontrada e revelar todas as ocorrências na palavra escondida.
-#Se não, exibir uma mensagem informando que a letra não foi encontrada e decrementar o número de tentativas.
-#Se o jogador tiver acertado todas as letras da palavra antes de ficar sem tentativas, exibir uma mensagem de vitória.
-#Caso contrário, exibir uma mensagem informando que o jogador perdeu e mostrar a palavra correta.
+#Importar palavras aleatórias
+import random
+from os import system, name
+
+def limpa_tela():
+    if name == 'nt':
+        _= system('cls')
+    else:
+        _= system('clear')
+
+def game():
+
+    limpa_tela()
+    print('\nBem-vinda ao jogo da forca!')
+    print('\nAdvinhe a palavra abaixo:')
+
+    palavras = ['Banana', 'Maça', 'Pera', 'Uva', 'Jabuticaba']
+
+    palavra = random.choice(palavras)
+
+    letras_descobertas = ['_' for letra in palavra]
+
+    chances = 6
+
+    letras_erradas = []
+
+    #print(letras_descobertas, '\n Você tem : {} chances' .format(chances), '\n Tentativas incorretas {}' .format(letras_erradas))
+
+    while chances > 0:
+        print("".join(letras_descobertas))
+        print('\nChances restantes:', chances)
+        print('\nLetras erradas:', ''.join(letras_erradas))
+
+        tentativa = input('\nDigite uma letra:').lower()
+
+        if tentativa in palavra:
+            index = 0
+
+            for letra in palavra: #passando por cada letra dentro da palavra
+                if tentativa == letra:
+                    letras_descobertas[index] = letra
+                index += 1
+        else:
+            chances -= 1
+            letras_erradas.append(tentativa)
+
+        if "_" not in letras_descobertas:
+            print('\nVocê venceu, a palavra era:', palavra)
+            break
+
+    if "_" in letras_descobertas:
+        print('\nVocê perdeu, a palavra era:', palavra)
+
+if __name__ == '__main__':
+    game()
+    print('\nParabéns. Você está aprendendo programação em Python com a DSA. :)\n')
